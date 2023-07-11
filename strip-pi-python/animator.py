@@ -36,8 +36,8 @@ class Animator:
         if not self.frameStart:
             self.startFrame(self)
 
-        if time.time() - self.frameStart < self.delay_seconds: # Wait for next frame
-            time.sleep(self.delay_seconds - (time.time() - self.frameStart))
+        if self.delay_seconds - (time.time() - self.frameStart) > 0: # Wait for next frame
+            time.sleep(max(self.delay_seconds - (time.time() - self.frameStart), 0))
         else:
             print('Not able to keep up with framerate! Consider lowering framerate')
 
@@ -75,7 +75,6 @@ if __name__ == '__main__':
     while True:
         animator.startFrame()
         frame = animator.processFrame(color=['colorWipe'])
-        print(frame)
         if frame:
             print(frame)
         else:
