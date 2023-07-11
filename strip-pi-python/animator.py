@@ -16,7 +16,6 @@ class Animator:
 
         self.animations = {
             'colorWipe': ColorWipe({'numPixels': numPixels}),
-            'colorBubbles': ColorBubbles({'numPixels': numPixels})
         }
 
     def color(self, animation):
@@ -63,7 +62,17 @@ class Animator:
             returnValues.append(x)
 
         return returnValues
-    
+
+    def resetAnimations(self, all=False, animations=[]):
+        if all:
+            for animation in self.animations.values():
+                animation.reset()
+
+        elif animations:
+            for animation in animations:
+                if animation in self.animations.keys():
+                    self.animations[animation].reset()
+
 if __name__ == '__main__':
 
     dataFile = {
@@ -80,5 +89,7 @@ if __name__ == '__main__':
         else:
             break
         animator.waitForNextFrame()
+
+    animator.resetAnimations(animations=['colorWipe'])
 
     print("Test Done...")
