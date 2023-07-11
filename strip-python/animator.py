@@ -20,6 +20,8 @@ class Animator:
 
     def color(self, animation):
         frame = animation.animateFrame(self.data)
+        if not frame:
+            return False
         computedValues = []
         for pixel in frame:
             r = pixel[0]
@@ -85,7 +87,8 @@ class Animator:
 if __name__ == '__main__': # Usage example
 
     dataFile = {
-        'speed': 100
+        'speed': 100,
+        'color': [255,255,255,1]
     }
 
     print("Running test...")

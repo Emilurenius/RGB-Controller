@@ -10,12 +10,12 @@ class ColorWipe:
 
         self.numPixels = args['numPixels']
 
-        if 'color' in args.keys():
-            if len(args['color']) == 4:
-                self.color = args['color']
-            raise ValueError(f'Missing value for arg <color>!\nExpected format: [r,g,b,a]\nValues given: {args["color"]}')
-        else:
-            self.color = [255,255,255,1]
+        # if 'color' in args.keys():
+        #     if len(args['color']) == 4:
+        #         self.color = args['color']
+        #     raise ValueError(f'Missing value for arg <color>!\nExpected format: [r,g,b,a]\nValues given: {args["color"]}')
+        # else:
+        self.color = [255,255,255,1]
 
         self.pixelData = {}
 
@@ -24,6 +24,17 @@ class ColorWipe:
         self.reset()
 
     def animateFrame(self, data):
+
+        if not data:
+            raise RuntimeError('Data file must be provided for this animation!')
+
+        if 'color' in data.keys():
+            if len(data['color']) == 4:
+                self.color = data['color']
+            else:
+                raise ValueError(f'Missing value for <color>!\nExpected format: [r,g,b,a]\nValues given: {data["color"]}')
+        else:
+            raise RuntimeError(f'Color values missing!\nExpected list with [r,g,b,a] values')
 
         if self.lastFrame:
             speed = (data['speed']*100) * (time.time() - self.lastFrame)
