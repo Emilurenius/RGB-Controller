@@ -13,10 +13,17 @@ class ColorWipe:
 
         self.pixelData = {}
 
+        self.lastFrame = None
+
         self.reset()
 
     def animateFrame(self, data):
 
+        if self.lastFrame:
+            speed = data['speed'] * (time.time() - self.lastFrame)
+        else:
+            speed = 0
+        
         noneActive = True
         for i in range(self.numPixels):
             if self.pixelData[i]["active"] == True:
@@ -28,7 +35,7 @@ class ColorWipe:
         for i in range(len(self.pixelData)):
             # Fade up
             if self.pixelData[i]["active"] == True and self.pixelData[i]['val'] < 1000:
-                self.pixelData[i]["val"] += data['speed']
+                self.pixelData[i]["val"] += speed
                 if self.pixelData[i]["val"] >= 1000:
                     if i+1 < self.numPixels:
                         self.pixelData[i+1]['active'] = True
@@ -39,6 +46,7 @@ class ColorWipe:
         rgbList = []
         for i in range(len(self.pixelData)):
             rgbList.append([self.color[0]*self.pixelData[i]['val']/1000,self.color[1]*self.pixelData[i]['val']/1000,self.color[2]*self.pixelData[i]['val']/1000])
+        self.lastFrame = time.time()
         return rgbList
     
     def reset(self):
@@ -47,6 +55,8 @@ class ColorWipe:
                 'val': 0,
                 'active': False
             }
+
+        self.lastFrame = None
 
 if __name__ == '__main__':
     print("This is a module, and is not meant to be used directly!")

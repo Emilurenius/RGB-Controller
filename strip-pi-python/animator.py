@@ -76,11 +76,11 @@ class Animator:
 if __name__ == '__main__':
 
     dataFile = {
-        'speed': 200
+        'speed': 500
     }
 
     print("Running test...")
-    animator = Animator(numPixels=10, frameRate=30, data=dataFile)
+    animator = Animator(numPixels=10, frameRate=60, data=dataFile)
     while True:
         animator.startFrame()
         frame = animator.processFrame(color=['colorWipe'])
