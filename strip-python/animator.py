@@ -19,7 +19,16 @@ class Animator:
         }
 
     def color(self, animation):
-        return animation.animateFrame(self.data)
+        frame = animation.animateFrame(self.data)
+        computedValues = []
+        for pixel in frame:
+            r = pixel[0]
+            g = pixel[1]
+            b = pixel[2]
+            a = pixel[3]
+            computedValues.append([pixel[0]*pixel[3],pixel[1]*pixel[3],pixel[2]*pixel[3]])
+
+        return computedValues
     
     def brightnessMask(self, animation):
         print("This function is not yet implemented")
@@ -73,10 +82,10 @@ class Animator:
                 if animation in self.animations.keys():
                     self.animations[animation].reset()
 
-if __name__ == '__main__':
+if __name__ == '__main__': # Usage example
 
     dataFile = {
-        'speed': 500
+        'speed': 100
     }
 
     print("Running test...")
@@ -87,9 +96,10 @@ if __name__ == '__main__':
         if frame:
             print(frame)
         else:
+            print(frame)
             break
         animator.waitForNextFrame()
 
-    animator.resetAnimations(animations=['colorWipe'])
+    animator.resetAnimations(all=True)
 
     print("Test Done...")

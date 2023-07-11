@@ -1,5 +1,9 @@
 import time
 
+# def map(x,inputRangeStart,inputRangeEnd,outputRangeStart,outputRangeEnd):
+#    output=(x-inputRangeStart)/(inputRangeEnd-inputRangeStart)*(outputRangeEnd-outputRangeStart)+outputRangeStart
+#    return output
+
 class ColorWipe:
 
     def __init__(self, args):
@@ -7,9 +11,11 @@ class ColorWipe:
         self.numPixels = args['numPixels']
 
         if 'color' in args.keys():
-            self.color = args['color']
+            if len(args['color']) == 4:
+                self.color = args['color']
+            raise ValueError(f'Missing value for arg <color>!\nExpected format: [r,g,b,a]\nValues given: {args["color"]}')
         else:
-            self.color = [255,255,255]
+            self.color = [255,255,255,1]
 
         self.pixelData = {}
 
@@ -20,7 +26,7 @@ class ColorWipe:
     def animateFrame(self, data):
 
         if self.lastFrame:
-            speed = data['speed'] * (time.time() - self.lastFrame)
+            speed = (data['speed']*100) * (time.time() - self.lastFrame)
         else:
             speed = 0
         
@@ -45,7 +51,8 @@ class ColorWipe:
 
         rgbList = []
         for i in range(len(self.pixelData)):
-            rgbList.append([self.color[0]*self.pixelData[i]['val']/1000,self.color[1]*self.pixelData[i]['val']/1000,self.color[2]*self.pixelData[i]['val']/1000])
+            alpha = (self.pixelData[i]['val']/1000)*self.color[3]
+            rgbList.append([self.color[0],self.color[1],self.color[2],alpha])
         self.lastFrame = time.time()
         return rgbList
     
