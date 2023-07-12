@@ -2,6 +2,7 @@ import time
 
 from animations.colorBubbles import ColorBubbles
 from animations.colorWipe import ColorWipe
+from animations.fadeColor import FadeColor
 
 class Animator:
 
@@ -12,10 +13,15 @@ class Animator:
         self.delay_seconds = 1/self.frameRate # 1 split by frames per second
         self.frameStart = None
 
+        self.prevFrame = []
+        for i in range(self.numPixels):
+            self.prevFrame.append([0,0,0,0]) # Fill array with pixels
+
         self.data = data
 
         self.animations = {
             'colorWipe': ColorWipe({'numPixels': numPixels}),
+            'fadeColor': FadeColor({'numPixels': numPixels})
         }
 
     def color(self, animation):
@@ -28,7 +34,7 @@ class Animator:
             g = pixel[1]
             b = pixel[2]
             a = pixel[3]
-            computedValues.append([pixel[0]*pixel[3],pixel[1]*pixel[3],pixel[2]*pixel[3]])
+            computedValues.append([r*a,g*a,b*a])
 
         return computedValues
     
@@ -95,7 +101,7 @@ if __name__ == '__main__': # Usage example
     animator = Animator(numPixels=10, frameRate=60, data=dataFile)
     while True:
         animator.startFrame()
-        frame = animator.processFrame(color=['colorWipe'])
+        frame = animator.processFrame(color=['fadeColor'])
         if frame:
             print(frame)
         else:

@@ -36,10 +36,13 @@ class ColorWipe:
         else:
             raise RuntimeError(f'Color values missing!\nExpected list with [r,g,b,a] values')
 
-        if self.lastFrame:
-            speed = (data['speed']*100) * (time.time() - self.lastFrame)
+        if 'speed' in data.keys():
+            if self.lastFrame:
+                speed = (data['speed']*100) * (time.time() - self.lastFrame)
+            else:
+                speed = 0
         else:
-            speed = 0
+            raise ValueError(f'Speed setting missing from data file!')
         
         noneActive = True
         for i in range(self.numPixels):
