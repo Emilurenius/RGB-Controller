@@ -14,8 +14,8 @@ class Animator:
         self.frameStart = None
 
         self.prevFrame = []
-        for i in range(self.numPixels):
-            self.prevFrame.append([0,0,0,0]) # Fill array with pixels
+        self.baseColors = []
+        
 
         self.data = data
 
@@ -23,6 +23,8 @@ class Animator:
             'colorWipe': ColorWipe({'numPixels': numPixels}),
             'fadeColor': FadeColor({'numPixels': numPixels})
         }
+
+        self.reset()
 
     def color(self, animation):
         frame = animation.animateFrame(self.data)
@@ -79,6 +81,11 @@ class Animator:
             returnValues.append(x)
 
         return returnValues
+    
+    def reset(self):
+        for i in range(self.numPixels):
+            self.prevFrame.append([0,0,0,0])
+            self.baseColors.append([0,0,0,0])
 
     def resetAnimations(self, all=False, animations=[]):
         if all:
@@ -89,6 +96,11 @@ class Animator:
             for animation in animations:
                 if animation in self.animations.keys():
                     self.animations[animation].reset()
+
+    def resetAll(self):
+        self.resetAnimations(all=True)
+        self.reset()
+
 
 if __name__ == '__main__': # Usage example
 
