@@ -13,7 +13,7 @@ class ColorWipe:
         # if 'color' in args.keys():
         #     if len(args['color']) == 4:
         #         self.color = args['color']
-        #     raise ValueError(f'Missing value for arg <color>!\nExpected format: [r,g,b,a]\nValues given: {args["color"]}')
+        #     raise RuntimeError(f'Missing value for arg <color>!\nExpected format: [r,g,b,a]\nValues given: {args["color"]}')
         # else:
         self.color = [255,255,255,1]
 
@@ -32,7 +32,7 @@ class ColorWipe:
             if len(data['color']) == 4:
                 self.color = data['color']
             else:
-                raise ValueError(f'Missing value for <color>!\nExpected format: [r,g,b,a]\nValues given: {data["color"]}')
+                raise RuntimeError(f'Missing value for <color>!\nExpected format: [r,g,b,a]\nValues given: {data["color"]}')
         else:
             raise RuntimeError(f'Color values missing!\nExpected list with [r,g,b,a] values')
 
@@ -42,7 +42,7 @@ class ColorWipe:
             else:
                 speed = 0
         else:
-            raise ValueError(f'Speed setting missing from data file!')
+            raise RuntimeError(f'Speed setting missing from data file!')
         
         noneActive = True
         for i in range(self.numPixels):
