@@ -20,6 +20,28 @@ Both of these arguments are given as dictionaries. Now let's look at their conte
 
 This argument contains all data needed by animations available to the Animator. For more information, see [How is an animation defined?](#how-is-an-animation-defined)
 
+### config:
+
+This argument contains, as the name suggests, configuration data for the Animator. Through this argument, you can define how the Animator handles data to best suit your needs. 
+
+let's take a look at what parameters you can provide:
+
+#### numPixels:
+
+This value is quite simple. This value must be an integer, and tells the Animator how many pixels it has to work with.
+
+#### frameRate:
+
+This value Defines how many frames the Animator will render every second.
+
+#### animateFunction:
+
+This value must be provided as a function that will define how the Animator will animate the frames it generates. This allows you to define where the frame data will  be sent after it is rendered, meaning you can use any library you want to actually send the pixel data to your light strip.
+
+More information on how this function is implemented can be found under [#functions](#functions)
+
+## Functions:
+
 ## How is an animation defined?
 
 Broken down to it's most basic structure, an animation class compatible with this animator needs two functions:
