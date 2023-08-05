@@ -38,7 +38,7 @@ This value Defines how many frames the Animator will render every second.
 
 This value must be provided as a function that will define how the Animator will animate the frames it generates. This allows you to define where the frame data will  be sent after it is rendered, meaning you can use any library you want to actually send the pixel data to your light strip.
 
-More information on how this function is implemented can be found under [#functions](#functions)
+More information on how this function is implemented can be found under [#Functions](#functions)
 
 ## Functions:
 
