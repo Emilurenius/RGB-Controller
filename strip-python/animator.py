@@ -14,8 +14,8 @@ class Animator:
         self.frameStart = None
 
         self.prevFrame = []
-        self.baseColors = []
-        
+        for _ in range(self.numPixels):
+            self.prevFrame.append([0,0,0,0]) # Fill array with pixels
 
         self.data = data
 
@@ -36,7 +36,7 @@ class Animator:
             g = pixel[1]
             b = pixel[2]
             a = pixel[3]
-            computedValues.append([r*a,g*a,b*a])
+            computedValues.append([round(r*a),round(g*a),round(b*a)])
 
         return computedValues
     
@@ -105,12 +105,12 @@ class Animator:
 if __name__ == '__main__': # Usage example
 
     dataFile = {
-        'speed': 100,
+        'speed': 20,
         'color': [255,255,255,1]
     }
 
     print("Running test...")
-    animator = Animator(numPixels=10, frameRate=60, data=dataFile)
+    animator = Animator(numPixels=1, frameRate=60, data=dataFile)
     while True:
         animator.startFrame()
         frame = animator.processFrame(color=['fadeColor'])
