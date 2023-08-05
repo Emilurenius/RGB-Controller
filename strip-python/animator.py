@@ -161,23 +161,6 @@ if __name__ == '__main__': # Usage example
         'animateFunction': animateFunction
     }
 
-    # print("Running test...")
-    # animator = Animator(data=dataFile, config=configFile)
-    # while True:
-    #     animator.startFrame()
-    #     print(animator.prevFrame)
-    #     frame = animator.processFrame(color=['fadeColor'])
-    #     if frame:
-    #         print(frame)
-    #     else:
-    #         print(frame)
-    #         break
-    #     animator.waitForNextFrame()
-
-    # animator.resetAnimations(all=True)
-
-    # print("Test Done...")
-
     animator = Animator(data=dataFile, config=configFile)
 
     animator.animate()
