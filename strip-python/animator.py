@@ -6,23 +6,45 @@ from animations.fadeColor import FadeColor
 
 class Animator:
 
-    def __init__(self, numPixels, frameRate=60, data=None):
+    def __init__(self, data=None, config=None):
 
-        self.numPixels = numPixels
-        self.frameRate = frameRate
+        requiredConfigsList = ['numPixels', 'frameRate', 'animateFunction']
+
+        if config is None:
+            raise RuntimeError('No config provided. Config is required')
+        
+        for x in requiredConfigsList:
+            if x not in config.keys():
+                raise RuntimeError(f'{x} not present in config. This value must be provided')
+        
+        self.numPixels = config['numPixels']
+        self.frameRate = config['frameRate']
         self.delay_seconds = 1/self.frameRate # 1 split by frames per second
         self.frameStart = None
+
+        self.injected = {
+            'animate': config['animateFunction']
+        }
 
         self.prevFrame = [] # Is populated during reset
 
         self.data = data
 
         self.animations = {
-            'colorWipe': ColorWipe({'numPixels': numPixels}),
-            'fadeColor': FadeColor({'numPixels': numPixels})
+            'colorWipe': ColorWipe({'numPixels': self.numPixels}),
+            'fadeColor': FadeColor({'numPixels': self.numPixels})
         }
 
         self.reset()
+
+#region injectedWrappers
+
+    def animate(self): # Wrapper for injected function
+        self.injected['animate'](self)
+
+#endregion
+
+#region Pixel processing:
 
     def color(self, animation):
         frame = animation.animateFrame(self.data)
@@ -44,22 +66,6 @@ class Animator:
     def shaderMask(self, animation):
         print("This function is not yet implemented")
 
-    def startFrame(self):
-        self.frameStart = time.time()
-
-    def waitForNextFrame(self, startNext=False):
-
-        if not self.frameStart:
-            self.startFrame(self)
-
-        if self.delay_seconds - (time.time() - self.frameStart) > 0: # Wait for next frame
-            time.sleep(max(self.delay_seconds - (time.time() - self.frameStart), 0))
-        else:
-            print('Not able to keep up with framerate! Consider lowering framerate')
-
-        if startNext:
-            self.startFrame(self)
-    
     def processFrame(self, color=[], brightnessMask=[], shaderMask=[]):
         frameValues = {
             'color': [],
@@ -82,6 +88,30 @@ class Animator:
 
         return returnValues
     
+#endregion
+
+#region Timing functions:
+
+    def startFrame(self):
+        self.frameStart = time.time()
+
+    def waitForNextFrame(self, startNext=False):
+
+        if not self.frameStart:
+            self.startFrame(self)
+
+        if self.delay_seconds - (time.time() - self.frameStart) > 0: # Wait for next frame
+            time.sleep(max(self.delay_seconds - (time.time() - self.frameStart), 0))
+        else:
+            print('Not able to keep up with framerate! Consider lowering framerate')
+
+        if startNext:
+            self.startFrame(self)
+
+#endregion
+
+#region Reset functions:
+
     def reset(self):
         for _ in range(self.numPixels):
             self.prevFrame.append([0,0,0,0])
@@ -100,6 +130,7 @@ class Animator:
         self.resetAnimations(all=True)
         self.reset()
 
+#endregion
 
 if __name__ == '__main__': # Usage example
 
@@ -108,19 +139,45 @@ if __name__ == '__main__': # Usage example
         'color': [255,255,255,1]
     }
 
-    print("Running test...")
-    animator = Animator(numPixels=1, frameRate=1, data=dataFile)
-    while True:
-        animator.startFrame()
-        print(animator.prevFrame)
-        frame = animator.processFrame(color=['fadeColor'])
-        if frame:
-            print(frame)
-        else:
-            print(frame)
-            break
-        animator.waitForNextFrame()
+    def animateFunction(self):
+        while True:
+            self.startFrame()
+            print(self.prevFrame)
+            frame = self.processFrame(color=['fadeColor'])
+            if frame:
+                print(frame)
+            else:
+                print(frame)
+                break
+            self.waitForNextFrame()
 
-    animator.resetAnimations(all=True)
+        self.resetAnimations(all=True)
 
-    print("Test Done...")
+        print('Test Done...')
+
+    configFile = {
+        'numPixels': 10,
+        'frameRate': 60,
+        'animateFunction': animateFunction
+    }
+
+    # print("Running test...")
+    # animator = Animator(data=dataFile, config=configFile)
+    # while True:
+    #     animator.startFrame()
+    #     print(animator.prevFrame)
+    #     frame = animator.processFrame(color=['fadeColor'])
+    #     if frame:
+    #         print(frame)
+    #     else:
+    #         print(frame)
+    #         break
+    #     animator.waitForNextFrame()
+
+    # animator.resetAnimations(all=True)
+
+    # print("Test Done...")
+
+    animator = Animator(data=dataFile, config=configFile)
+
+    animator.animate()
