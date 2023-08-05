@@ -48,7 +48,6 @@ class FadeColor:
 
         return returnVal
         
-
     def reset(self):
         
         self.lastFrame = None
