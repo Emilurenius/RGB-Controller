@@ -13,9 +13,7 @@ class Animator:
         self.delay_seconds = 1/self.frameRate # 1 split by frames per second
         self.frameStart = None
 
-        self.prevFrame = []
-        for _ in range(self.numPixels):
-            self.prevFrame.append([0,0,0,0]) # Fill array with pixels
+        self.prevFrame = [] # Is populated during reset
 
         self.data = data
 
@@ -80,12 +78,13 @@ class Animator:
         for x in frameValues['color']:
             returnValues.append(x)
 
+        self.prevFrame = returnValues
+
         return returnValues
     
     def reset(self):
-        for i in range(self.numPixels):
+        for _ in range(self.numPixels):
             self.prevFrame.append([0,0,0,0])
-            self.baseColors.append([0,0,0,0])
 
     def resetAnimations(self, all=False, animations=[]):
         if all:
@@ -110,9 +109,10 @@ if __name__ == '__main__': # Usage example
     }
 
     print("Running test...")
-    animator = Animator(numPixels=1, frameRate=60, data=dataFile)
+    animator = Animator(numPixels=1, frameRate=1, data=dataFile)
     while True:
         animator.startFrame()
+        print(animator.prevFrame)
         frame = animator.processFrame(color=['fadeColor'])
         if frame:
             print(frame)
