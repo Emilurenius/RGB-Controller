@@ -18,7 +18,7 @@ Both of these arguments are given as dictionaries. Now let's look at their conte
 
 ### data:
 
-This argument contains all data needed by animations available to the Animator. For more information, see [How is an animation defined?](#how-is-an-animation-defined?)
+This argument contains all data needed by animations available to the Animator. For more information, see [How is an animation defined?](#how-is-an-animation-defined)
 
 ## How is an animation defined?
 
