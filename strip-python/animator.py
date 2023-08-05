@@ -39,8 +39,8 @@ class Animator:
 
 #region injectedWrappers
 
-    def animate(self): # Wrapper for injected function
-        self.injected['animate'](self)
+    def animate(self, **kwargs): # Wrapper for injected function
+        self.injected['animate'](self, kwargs)
 
 #endregion
 
@@ -139,11 +139,11 @@ if __name__ == '__main__': # Usage example
         'color': [255,255,255,1]
     }
 
-    def animateFunction(self):
+    def animateFunction(self, kwargs):
         while True:
             self.startFrame()
             print(self.prevFrame)
-            frame = self.processFrame(color=['fadeColor'])
+            frame = self.processFrame(color=kwargs['color'])
             if frame:
                 print(frame)
             else:
@@ -163,4 +163,4 @@ if __name__ == '__main__': # Usage example
 
     animator = Animator(data=dataFile, config=configFile)
 
-    animator.animate()
+    animator.animate(color=['fadeColor'])
