@@ -6,12 +6,9 @@ from animations.fadeColor import FadeColor
 
 class Animator:
 
-    def __init__(self, data=None, config=None):
+    def __init__(self, data, config):
 
-        requiredConfigsList = ['numPixels', 'frameRate', 'animateFunction']
-
-        if config is None:
-            raise RuntimeError('No config provided. Config is required')
+        requiredConfigsList = ['numPixels', 'frameRate', 'injectedFunctions']
         
         for x in requiredConfigsList:
             if x not in config.keys():
@@ -22,9 +19,8 @@ class Animator:
         self.delay_seconds = 1/self.frameRate # 1 split by frames per second
         self.frameStart = None
 
-        self.injected = {
-            'animate': config['animateFunction']
-        }
+        for k,v in config['injectedFunctions'].items():
+            setattr(self, k, v.__get__(self))
 
         self.prevFrame = [] # Is populated during reset
 
@@ -36,13 +32,6 @@ class Animator:
         }
 
         self.reset()
-
-#region injectedWrappers
-
-    def animate(self, **kwargs): # Wrapper for injected function
-        self.injected['animate'](self, kwargs)
-
-#endregion
 
 #region Pixel processing:
 
@@ -139,7 +128,7 @@ if __name__ == '__main__': # Usage example
         'color': [255,255,255,1]
     }
 
-    def animateFunction(self, kwargs):
+    def animateFunction(self, **kwargs):
         while True:
             self.startFrame()
             print(self.prevFrame)
@@ -158,7 +147,9 @@ if __name__ == '__main__': # Usage example
     configFile = {
         'numPixels': 10,
         'frameRate': 60,
-        'animateFunction': animateFunction
+        'injectedFunctions': {
+            'animate': animateFunction
+        }
     }
 
     animator = Animator(data=dataFile, config=configFile)
