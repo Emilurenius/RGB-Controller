@@ -1,36 +1,39 @@
 from animator import Animator
 
-if __name__ == '__main__':
+dataFile = {
+    'speed': 20,
+    'color': [255,255,255,1]
+}
 
-    dataFile = {
-        'speed': 20,
-        'color': [255,255,255,1]
+def animateFunction(self, **kwargs):
+    while True:
+        self.startFrame()
+        print(self.prevFrame)
+        frame = self.processFrame(color=kwargs['color'])
+        if frame:
+            print(frame)
+        else:
+            print(frame)
+            break
+        self.waitForNextFrame()
+
+    self.resetAnimations(all=True)
+
+    print('Test Done...')
+
+configFile = {
+    'numPixels': 10,
+    'frameRate': 60,
+    'injectedFunctions': {
+        'animate': animateFunction
     }
+}
 
-    def animateFunction(self, **kwargs):
-        while True:
-            self.startFrame()
-            print(self.prevFrame)
-            frame = self.processFrame(color=kwargs['color'])
-            if frame:
-                print(frame)
-            else:
-                print(frame)
-                break
-            self.waitForNextFrame()
+animator = Animator(data=dataFile, config=configFile)
 
-        self.resetAnimations(all=True)
-
-        print('Test Done...')
-    
-    configFile = {
-        'numPixels': 10,
-        'frameRate': 60,
-        'injectedFunctions': {
-            'animate': animateFunction
-        }
-    }
-
-    animator = Animator(data=dataFile, config=configFile)
-
-    animator.animate(color=['fadeColor'])
+animator.data['color'] = [255,0,0,0]
+animator.animate(color=['fadeColor'])
+animator.data['color'] = [0,255,0,0]
+animator.animate(color=['fadeColor'])
+animator.data['color'] = [0,0,255,0]
+animator.animate(color=['fadeColor'])
