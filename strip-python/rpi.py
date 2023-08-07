@@ -1,3 +1,5 @@
+from animator import Animator
+
 if __name__ == '__main__': # Own testing
 
     #region Configuration for rpi_ws281x:
