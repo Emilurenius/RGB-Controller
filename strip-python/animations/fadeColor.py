@@ -2,8 +2,8 @@ import time
 
 class FadeColor:
 
-    def __init__(self, args):
-        self.numPixels = args['numPixels']
+    def __init__(self, **kwargs):
+        self.numPixels = kwargs['numPixels']
         self.color = [255,255,255,1]
         self.pixelData = 0
         self.lastFrame = None
@@ -13,6 +13,7 @@ class FadeColor:
     def animateFrame(self, data):
 
         if self.doneFlag:
+            self.reset()
             return False
 
         if 'color' in data.keys():
@@ -52,3 +53,4 @@ class FadeColor:
         
         self.lastFrame = None
         self.doneFlag = False
+        self.pixelData = 0

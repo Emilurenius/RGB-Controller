@@ -1,8 +1,5 @@
 import time, sys
 
-if 'dev-env' not in sys.argv:
-    from rpi_ws281x import *
-
 from animations.colorBubbles import ColorBubbles
 from animations.colorWipe import ColorWipe
 from animations.fadeColor import FadeColor
@@ -11,7 +8,7 @@ class Animator:
 
     def __init__(self, data, config):
 
-        requiredConfigsList = ['numPixels', 'frameRate', 'injectedFunctions']
+        requiredConfigsList = ['numPixels', 'frameRate']
         
         for x in requiredConfigsList:
             if x not in config.keys():
@@ -22,16 +19,17 @@ class Animator:
         self.delay_seconds = 1/self.frameRate # 1 split by frames per second
         self.frameStart = None
 
-        for k,v in config['injectedFunctions'].items():
-            setattr(self, k, v.__get__(self))
+        if 'injectedFunctions' in config.keys():
+            for k,v in config['injectedFunctions'].items():
+                setattr(self, k, v.__get__(self))
 
         self.prevFrame = [] # Is populated during reset
 
         self.data = data
 
         self.animations = {
-            'colorWipe': ColorWipe({'numPixels': self.numPixels}),
-            'fadeColor': FadeColor({'numPixels': self.numPixels})
+            'colorWipe': ColorWipe(numPixels=self.numPixels,animator=self),
+            'fadeColor': FadeColor(numPixels=self.numPixels,animator=self)
         }
 
         self.reset()
@@ -123,38 +121,3 @@ class Animator:
         self.reset()
 
 #endregion
-
-if __name__ == '__main__': # Usage example
-
-    dataFile = {
-        'speed': 20,
-        'color': [255,255,255,1]
-    }
-
-    def animateFunction(self, **kwargs):
-        while True:
-            self.startFrame()
-            print(self.prevFrame)
-            frame = self.processFrame(color=kwargs['color'])
-            if frame:
-                print(frame)
-            else:
-                print(frame)
-                break
-            self.waitForNextFrame()
-
-        self.resetAnimations(all=True)
-
-        print('Test Done...')
-
-    configFile = {
-        'numPixels': 10,
-        'frameRate': 60,
-        'injectedFunctions': {
-            'animate': animateFunction
-        }
-    }
-
-    animator = Animator(data=dataFile, config=configFile)
-
-    animator.animate(color=['fadeColor'])

@@ -6,9 +6,9 @@ import time
 
 class ColorWipe:
 
-    def __init__(self, args):
+    def __init__(self, **kwargs):
 
-        self.numPixels = args['numPixels']
+        self.numPixels = kwargs['numPixels']
 
         # if 'color' in args.keys():
         #     if len(args['color']) == 4:
