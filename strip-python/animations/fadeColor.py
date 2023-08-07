@@ -44,7 +44,7 @@ class FadeColor:
 
         for _ in range(self.numPixels):
             if a > 0:
-                returnVal.append([r,g,b,(self.pixelData/1000)/a])
+                returnVal.append([r,g,b,(self.pixelData/1000)*a])
             else:
                 returnVal.append([r,g,b,a])
 
