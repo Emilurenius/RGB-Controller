@@ -46,4 +46,5 @@ animator = Animator(data=dataFile, config=configFile)
 
 animator.animate(strip=strip, color=['fadeColor'])
 animator.data['color'] = [0,0,0,1]
+print(animator.prevFrame)
 animator.animate(strip=strip, color=['fadeColor'])
