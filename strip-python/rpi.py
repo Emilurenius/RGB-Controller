@@ -17,33 +17,33 @@ if __name__ == '__main__': # Own testing
 
     strip = PixelStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
 
-    def animate(self, strip, color=[], brightnessMask=[], shaderMask=[]):
+    # def animate(self, strip, color=[], brightnessMask=[], shaderMask=[]):
 
-        while True:
-            self.startFrame()
-            frame = self.processFrame(color=color, brightnessMask=brightnessMask, shaderMask=shaderMask)
-            if frame:
-                for i in range(self.numPixels):
-                    strip.setPixelColor(i, Color(frame[i][0],frame[i][1],frame[i][2]))
-                strip.show()
-            else:
-                print('animating shit')
-                break
-            self.waitForNextFrame()
+    #     while True:
+    #         self.startFrame()
+    #         frame = self.processFrame(color=color, brightnessMask=brightnessMask, shaderMask=shaderMask)
+    #         if frame:
+    #             for i in range(self.numPixels):
+    #                 strip.setPixelColor(i, Color(frame[i][0],frame[i][1],frame[i][2]))
+    #             strip.show()
+    #         else:
+    #             print('animating shit')
+    #             break
+    #         self.waitForNextFrame()
 
-    dataFile = {
-        'speed': 20,
-        'color': [255,255,255,1]
-    }
+    # dataFile = {
+    #     'speed': 20,
+    #     'color': [255,255,255,1]
+    # }
     
-    configFile = {
-        'numPixels': LED_COUNT,
-        'frameRate': 60,
-        'injectedFunctions': {
-            'animate': animate
-        }
-    }
+    # configFile = {
+    #     'numPixels': LED_COUNT,
+    #     'frameRate': 60,
+    #     'injectedFunctions': {
+    #         'animate': animate
+    #     }
+    # }
 
-    animator = Animator(data=dataFile, config=configFile)
+    # animator = Animator(data=dataFile, config=configFile)
 
-    animator.animate(strip=strip, color=['fadeColor'])
+    # animator.animate(strip=strip, color=['fadeColor'])
