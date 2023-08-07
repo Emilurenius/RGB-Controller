@@ -43,7 +43,10 @@ class FadeColor:
         returnVal = []
 
         for _ in range(self.numPixels):
-            returnVal.append([r,g,b,(self.pixelData/1000)/a])
+            if a < 0:
+                returnVal.append([r,g,b,(self.pixelData/1000)/a])
+            else:
+                returnVal.append([r,g,b,a])
 
         self.lastFrame = time.time()
 
