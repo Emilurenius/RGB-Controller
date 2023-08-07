@@ -2,7 +2,7 @@ import time
 
 class FadeColor:
 
-    def __init__(self, args):
+    def __init__(self, **args):
         self.numPixels = args['numPixels']
         self.color = [255,255,255,1]
         self.pixelData = 0

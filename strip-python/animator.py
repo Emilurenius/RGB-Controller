@@ -28,8 +28,8 @@ class Animator:
         self.data = data
 
         self.animations = {
-            'colorWipe': ColorWipe({'numPixels': self.numPixels}),
-            'fadeColor': FadeColor({'numPixels': self.numPixels})
+            'colorWipe': ColorWipe(numPixels=self.numPixels,animator=self),
+            'fadeColor': FadeColor(numPixels=self.numPixels,animator=self)
         }
 
         self.reset()
