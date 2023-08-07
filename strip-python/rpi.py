@@ -1,4 +1,4 @@
-from animator import Animator
+#from animator import Animator
 
 from rpi_ws281x import PixelStrip, Color
 
