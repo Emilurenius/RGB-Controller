@@ -5,7 +5,7 @@ from rpi_ws281x import PixelStrip, Color
 if __name__ == '__main__': # Own testing
 
     #region Configuration for rpi_ws281x:
-    LED_COUNT      = 7      # Number of LED pixels.
+    LED_COUNT      = 10      # Number of LED pixels.
     LED_PIN        = 21      # GPIO pin connected to the pixels (18 uses PWM!).
     #LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
     LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
@@ -24,8 +24,9 @@ if __name__ == '__main__': # Own testing
             frame = self.processFrame(color=color, brightnessMask=brightnessMask, shaderMask=shaderMask)
             if frame:
                 for i in range(self.numPixels):
-                    strip.setPixelColor(i, Color(frame[i][0],frame[i][1],frame[i][2]))
-                strip.show()
+                    print(frame[i][0],frame[i][1],frame[i][2])
+                #     strip.setPixelColor(i, Color(frame[i][0],frame[i][1],frame[i][2]))
+                # strip.show()
             else:
                 print('animating shit')
                 break
