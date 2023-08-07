@@ -13,6 +13,7 @@ class FadeColor:
     def animateFrame(self, data):
 
         if self.doneFlag:
+            self.reset()
             return False
 
         if 'color' in data.keys():
