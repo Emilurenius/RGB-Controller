@@ -47,4 +47,3 @@ if __name__ == '__main__': # Own testing
     animator = Animator(data=dataFile, config=configFile)
 
     animator.animate(strip=strip, color=['fadeColor'])
-    print('Is segmentation fault at the end?')
