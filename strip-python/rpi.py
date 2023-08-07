@@ -24,7 +24,7 @@ if __name__ == '__main__': # Own testing
             frame = self.processFrame(color=color, brightnessMask=brightnessMask, shaderMask=shaderMask)
             if frame:
                 for i in range(self.numPixels):
-                    print(frame[i][0],frame[i][1],frame[i][2])
+                    print(Color(frame[i][0],frame[i][1],frame[i][2]))
                 #     strip.setPixelColor(i, Color(frame[i][0],frame[i][1],frame[i][2]))
                 # strip.show()
             else:
