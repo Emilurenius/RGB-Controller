@@ -23,9 +23,10 @@ def animate(self, strip, color=[], brightnessMask=[], shaderMask=[]):
         if frame:
             for i in range(self.numPixels):
                 strip.setPixelColor(i, Color(frame[i][0],frame[i][1],frame[i][2]))
+            print('Attempting to animate shit')
             strip.show()
         else:
-            print('animating shit')
+            print('Done animating shit')
             break
         self.waitForNextFrame()
 
