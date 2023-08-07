@@ -15,7 +15,7 @@ if __name__ == '__main__': # Own testing
     LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
     #endregion
 
-    strip = PixelStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+    # strip = PixelStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
 
     # def animate(self, strip, color=[], brightnessMask=[], shaderMask=[]):
 
