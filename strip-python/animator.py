@@ -42,6 +42,10 @@ class Animator:
             return False
         computedValues = []
         for pixel in frame:
+            if pixel[0] > 255 or pixel[1] > 255 or pixel[2] > 255:
+                raise RuntimeError(f'Color value {pixel} is out of range')
+            elif pixel[3] > 1:
+                raise RuntimeError(f'Alpha value {pixel} is out of range')
             r = pixel[0]
             g = pixel[1]
             b = pixel[2]

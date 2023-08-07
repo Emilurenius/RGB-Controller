@@ -31,9 +31,9 @@ configFile = {
 
 animator = Animator(data=dataFile, config=configFile)
 
-animator.data['color'] = [255,0,0,0]
+animator.data['color'] = [255,0,0,0.5]
 animator.animate(color=['fadeColor'])
-animator.data['color'] = [0,255,0,0]
+animator.data['color'] = [0,255,0,0.5]
 animator.animate(color=['fadeColor'])
-animator.data['color'] = [0,0,255,0]
+animator.data['color'] = [0,0,255,0.5]
 animator.animate(color=['fadeColor'])
