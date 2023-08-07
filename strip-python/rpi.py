@@ -17,7 +17,7 @@ if __name__ == '__main__': # Own testing
     }
     
     configFile = {
-        'numPixels': 10,
+        'numPixels': LED_COUNT,
         'frameRate': 60
     }
 
