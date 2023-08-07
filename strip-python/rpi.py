@@ -23,8 +23,8 @@ if __name__ == '__main__': # Own testing
             self.startFrame()
             frame = self.processFrame(color=color, brightnessMask=brightnessMask, shaderMask=shaderMask)
             if frame:
-                for pixel in frame:
-                    strip.setPixelColor(pixel, Color(pixel[0],pixel[1],pixel[2]))
+                for i in range(self.numPixels):
+                    strip.setPixelColor(i, Color(frame[i][0],frame[i][1],frame[i][2]))
                 strip.show()
             else:
                 print('animating shit')
