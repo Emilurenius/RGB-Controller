@@ -121,17 +121,3 @@ class Animator:
         self.reset()
 
 #endregion
-
-    def animate(self, strip, color=[], brightnessMask=[], shaderMask=[]):
-
-        while True:
-            self.startFrame()
-            frame = self.processFrame(color=color, brightnessMask=brightnessMask, shaderMask=shaderMask)
-            if frame:
-                for i in range(self.numPixels):
-                    strip.setPixelColor(i, Color(i[0],i[1],i[2]))
-                strip.show()
-            else:
-                print('animating shit')
-                break
-            self.waitForNextFrame()

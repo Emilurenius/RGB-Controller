@@ -1,5 +1,7 @@
 from animator import Animator
 
+from rpi_ws281x import PixelStrip, Color
+
 if __name__ == '__main__': # Own testing
 
     #region Configuration for rpi_ws281x:
@@ -13,6 +15,22 @@ if __name__ == '__main__': # Own testing
     LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
     #endregion
 
+    strip = PixelStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+
+    def animate(self, strip, color=[], brightnessMask=[], shaderMask=[]):
+
+        while True:
+            self.startFrame()
+            frame = self.processFrame(color=color, brightnessMask=brightnessMask, shaderMask=shaderMask)
+            if frame:
+                for i in range(self.numPixels):
+                    strip.setPixelColor(i, Color(i[0],i[1],i[2]))
+                strip.show()
+            else:
+                print('animating shit')
+                break
+            self.waitForNextFrame()
+
     dataFile = {
         'speed': 20,
         'color': [255,255,255,1]
@@ -20,12 +38,12 @@ if __name__ == '__main__': # Own testing
     
     configFile = {
         'numPixels': LED_COUNT,
-        'frameRate': 60
+        'frameRate': 60,
+        'injectedFunctions': {
+            'animate': animate
+        }
     }
 
     animator = Animator(data=dataFile, config=configFile)
-
-    from rpi_ws281x import *
-    strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
 
     animator.animate(strip=strip, color=['fadeColor'])
