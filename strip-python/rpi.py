@@ -44,7 +44,7 @@ configFile = {
 
 animator = Animator(data=dataFile, config=configFile)
 
-animator.data['color'] = [0,0,0,0]
+animator.data['color'] = [0,0,0,1]
 animator.animate(strip=strip, color=['fadeColor'])
 
 while True:
