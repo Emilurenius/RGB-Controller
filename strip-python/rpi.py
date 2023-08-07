@@ -30,7 +30,7 @@ def animate(self, strip, color=[], brightnessMask=[], shaderMask=[]):
         self.waitForNextFrame()
 
 dataFile = {
-    'speed': 20,
+    'speed': 10,
     'color': [255,255,255,1]
 }
 
