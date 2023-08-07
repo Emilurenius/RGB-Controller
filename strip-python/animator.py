@@ -1,4 +1,7 @@
-import time
+import time, sys
+
+if 'dev-env' not in sys.argv:
+    from rpi_ws281x import *
 
 from animations.colorBubbles import ColorBubbles
 from animations.colorWipe import ColorWipe
