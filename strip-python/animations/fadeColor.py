@@ -53,3 +53,4 @@ class FadeColor:
         
         self.lastFrame = None
         self.doneFlag = False
+        self.pixelData = 0
