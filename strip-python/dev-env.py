@@ -8,7 +8,7 @@ dataFile = {
 def animateFunction(self, **kwargs):
     while True:
         self.startFrame()
-        print(self.prevFrame)
+        #print(self.prevFrame)
         frame = self.processFrame(color=kwargs['color'])
         if frame:
             print(frame)
@@ -22,7 +22,7 @@ def animateFunction(self, **kwargs):
     print('Test Done...')
 
 configFile = {
-    'numPixels': 10,
+    'numPixels': 1,
     'frameRate': 60,
     'injectedFunctions': {
         'animate': animateFunction
