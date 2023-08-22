@@ -13,6 +13,7 @@ def animateFunction(self, **kwargs):
         frame = self.processFrame(color=kwargs['color'])
         if frame:
             print(frame)
+            pass
         else:
             print(frame)
             break
@@ -24,7 +25,7 @@ def animateFunction(self, **kwargs):
 
 configFile = {
     'numPixels': 1,
-    'frameRate': 60,
+    'frameRate': 30,
     'injectedFunctions': {
         'animate': animateFunction
     }
@@ -37,6 +38,9 @@ animator.importAnimation(FadeColor)
 animator.data['color'] = [255,0,0,0.5]
 animator.animate(color=['fadeColor'])
 animator.data['color'] = [0,255,0,0.5]
+animator.setBaseValues('current')
+print('baseColor:', animator.baseValues)
 animator.animate(color=['fadeColor'])
 animator.data['color'] = [0,0,255,0.5]
+animator.setBaseValues('current')
 animator.animate(color=['fadeColor'])

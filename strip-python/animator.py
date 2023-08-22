@@ -1,8 +1,4 @@
-import time, sys
-
-from animations.colorBubbles import ColorBubbles
-from animations.colorWipe import ColorWipe
-from animations.fadeColor import FadeColor
+import time, sys, math
 
 class Animator:
 
@@ -24,6 +20,7 @@ class Animator:
                 setattr(self, k, v.__get__(self))
 
         self.prevFrame = [] # Is populated during reset
+        self.baseValues = [] # Is populated during reset
 
         self.data = data
 
@@ -66,28 +63,64 @@ class Animator:
     def shaderMask(self, animation):
         print("This function is not yet implemented")
 
+    def alphaBlend(self, a1, a2):
+
+        blendedValues = []
+
+        for i in range(len(a1)):
+            rgba = []
+            pixel1 = a1[i]
+            pixel2 = a2[i]
+            alpha = (pixel1[3] + pixel2[3]) * (1 - pixel1[3])
+            for j in range(3):
+                rgba.append( ( pixel1[j] * pixel1[3] + pixel2[j] * pixel2[3] * ( 1 - pixel1[3] ) ) )
+                rgba[j] = rgba[j] + pixel2[j] * (1 - alpha)
+            rgba.append(alpha)
+
+            blendedValues.append(rgba)
+
+        return blendedValues
+
+
+
     def processFrame(self, color=[], brightnessMask=[], shaderMask=[]):
         frameValues = {
             'color': [],
             'brightnessMask': [],
             'shaderMask': []
         }
+        rawValues = self.baseValues
         returnValues = []
         for x in color:
-            frameValue = self.color(self.animations[x])
+            # frameValue = self.color(self.animations[x])
+            frameValue = self.animations[x].animateFrame(self.data)
             if frameValue:
-                frameValues['color'] = frameValue
+                frameValues['color'].append(frameValue)
             else:
                 print(f'last frame reached by {x}')
                 return False
         
         for x in frameValues['color']:
-            returnValues.append(x)
+            rawValues = self.alphaBlend(rawValues, x)
 
-        self.prevFrame = returnValues
+        self.prevFrame = rawValues
+        
+        for x in rawValues:
+            returnValues.append([x[0]*x[3],x[1]*x[3],x[2]*x[3]])
+
+        for x in returnValues:
+            x[0] = round(x[0])
+            x[1] = round(x[1])
+            x[2] = round(x[2])
 
         return returnValues
     
+    def setBaseValues(self, newValues):
+        if newValues == 'current':
+            self.baseValues = self.prevFrame
+        else:
+            self.baseValues = newValues
+
 #endregion
 
 #region Timing functions:
@@ -115,6 +148,7 @@ class Animator:
     def reset(self):
         for _ in range(self.numPixels):
             self.prevFrame.append([0,0,0,0])
+            self.baseValues.append([0,0,0,0])
 
     def resetAnimations(self, all=False, animations=[]):
         if all:
