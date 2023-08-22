@@ -32,7 +32,7 @@ configFile = {
 
 animator = Animator(data=dataFile, config=configFile)
 
-animator.importAnimation(FadeColor, 'fadeColor')
+animator.importAnimation(FadeColor)
 
 animator.data['color'] = [255,0,0,0.5]
 animator.animate(color=['fadeColor'])

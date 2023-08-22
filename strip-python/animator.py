@@ -33,8 +33,10 @@ class Animator:
 
 #region configuration:
 
-    def importAnimation(self, animation, desiredName):
-        self.animations[desiredName] = animation(numPixels=self.numPixels,animator=self)
+    def importAnimation(self, animation):
+        self.animations['temp'] = animation(numPixels=self.numPixels,animator=self)
+        self.animations[self.animations['temp'].name] = self.animations['temp']
+        del self.animations['temp']
 
 #endregion configuration:
 
