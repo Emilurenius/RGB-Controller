@@ -2,8 +2,6 @@ class ColorBubbles:
     
     def __init__(self, args):
 
-        self.name = 'colorBubbles'
-
         self.numPixels = args['numPixels']
 
         self.pixelData = {}

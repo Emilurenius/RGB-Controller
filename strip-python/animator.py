@@ -27,12 +27,16 @@ class Animator:
 
         self.data = data
 
-        self.animations = {
-            'colorWipe': ColorWipe(numPixels=self.numPixels,animator=self),
-            'fadeColor': FadeColor(numPixels=self.numPixels,animator=self)
-        }
+        self.animations = {}
 
         self.reset()
+
+#region configuration:
+
+    def importAnimation(self, animation, desiredName):
+        self.animations[desiredName] = animation(numPixels=self.numPixels,animator=self)
+
+#endregion configuration:
 
 #region Pixel processing:
 
