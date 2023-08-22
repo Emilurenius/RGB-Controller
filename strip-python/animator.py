@@ -72,16 +72,26 @@ class Animator:
             pixel1 = a1[i]
             pixel2 = a2[i]
             alpha = (pixel1[3] + pixel2[3]) * (1 - pixel1[3])
-            for j in range(3):
-                rgba.append( ( pixel1[j] * pixel1[3] + pixel2[j] * pixel2[3] * ( 1 - pixel1[3] ) ) )
-                rgba[j] = rgba[j] + pixel2[j] * (1 - alpha)
-            rgba.append(alpha)
+            if alpha != 0:
+                for j in range(3):
+                    rgba.append( ( pixel1[j] * pixel1[3] + pixel2[j] * pixel2[3] * ( 1 - pixel1[3] ) ) / alpha )
+            else:
+                rgba = [0,0,0]
 
             blendedValues.append(rgba)
 
+        print(a1, a2, blendedValues)
         return blendedValues
+    
+    def blend(self, a1, a2):
+        blendedValues = []
 
+        for i in range(len(a1)):
+            rgb = []
+            for j in range(3):
+                rgb.append[a1[i][j]]
 
+        return a1
 
     def processFrame(self, color=[], brightnessMask=[], shaderMask=[]):
         frameValues = {
@@ -89,8 +99,7 @@ class Animator:
             'brightnessMask': [],
             'shaderMask': []
         }
-        rawValues = self.baseValues
-        returnValues = []
+        returnValues = self.baseValues
         for x in color:
             # frameValue = self.color(self.animations[x])
             frameValue = self.animations[x].animateFrame(self.data)
@@ -101,12 +110,9 @@ class Animator:
                 return False
         
         for x in frameValues['color']:
-            rawValues = self.alphaBlend(rawValues, x)
+            returnValues = self.blend(returnValues, x)
 
-        self.prevFrame = rawValues
-        
-        for x in rawValues:
-            returnValues.append([x[0]*x[3],x[1]*x[3],x[2]*x[3]])
+        self.prevFrame = returnValues
 
         for x in returnValues:
             x[0] = round(x[0])
