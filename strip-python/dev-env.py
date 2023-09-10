@@ -35,12 +35,12 @@ animator = Animator(data=dataFile, config=configFile)
 
 animator.importAnimation(FadeColor)
 
-animator.data['color'] = [255,0,0,0.5]
+animator.data['color'] = [255,0,0,1]
 animator.animate(color=['fadeColor'])
-animator.data['color'] = [0,255,0,0.5]
-animator.setBaseValues('current')
-print('baseColor:', animator.baseValues)
+animator.resetAnimations(animations=['fadeColor'])
+animator.data['color'] = [0,255,0,1]
 animator.animate(color=['fadeColor'])
-animator.data['color'] = [0,0,255,0.5]
-animator.setBaseValues('current')
+animator.resetAnimations(animations=['fadeColor'])
+animator.data['color'] = [0,0,255,1]
 animator.animate(color=['fadeColor'])
+animator.resetAnimations(animations=['fadeColor'])

@@ -5,13 +5,19 @@ class FadeColor:
     def __init__(self, **kwargs):
         self.name='fadeColor'
         self.numPixels = kwargs['numPixels']
+        self.animator = kwargs['animator']
         self.color = [255,255,255,1]
+        self.prevColor = None
         self.pixelData = 0
         self.lastFrame = None
         self.doneFlag = False
         self.reset()
 
     def animateFrame(self, data):
+
+        if not self.prevColor:
+            print('Setting previous color')
+            self.prevColor = self.animator.prevFrame
 
         if self.doneFlag:
             self.reset()
@@ -41,20 +47,26 @@ class FadeColor:
         
         r,g,b,a = self.color
 
-        returnVal = []
+        newColor = []
 
         for _ in range(self.numPixels):
-            if a > 0:
-                returnVal.append([r,g,b,(self.pixelData/1000)*a])
-            else:
-                returnVal.append([r,g,b,a])
+            newColor.append([r,g,b,(self.pixelData/1000)*a])
+
+        oldColors = []
+
+        for i in range(self.numPixels):
+            
+            r, g, b, a = self.prevColor[i]
+
+            oldColors.append([r,g,b,(self.pixelData/1000)*(1-a)])
 
         self.lastFrame = time.time()
 
-        return returnVal
+        return newColor, oldColors
         
     def reset(self):
         
         self.lastFrame = None
         self.doneFlag = False
         self.pixelData = 0
+        self.prevColor = None

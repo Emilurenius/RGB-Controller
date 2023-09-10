@@ -40,20 +40,22 @@ class Animator:
 #region Pixel processing:
 
     def color(self, animation):
-        frame = animation.animateFrame(self.data)
-        if not frame:
-            return False
-        computedValues = []
-        for pixel in frame:
-            if pixel[0] > 255 or pixel[1] > 255 or pixel[2] > 255:
-                raise RuntimeError(f'Color value {pixel} is out of range')
-            elif pixel[3] > 1:
-                raise RuntimeError(f'Alpha value {pixel} is out of range')
-            r = pixel[0]
-            g = pixel[1]
-            b = pixel[2]
-            a = pixel[3]
-            computedValues.append([round(r*a),round(g*a),round(b*a)])
+        frames = animation.animateFrame(self.data)
+        print(frames)
+        for frame in frames:
+            if not frame:
+                return False
+            computedValues = []
+            for pixel in frame:
+                if pixel[0] > 255 or pixel[1] > 255 or pixel[2] > 255:
+                    raise RuntimeError(f'Color value {pixel} is out of range')
+                elif pixel[3] > 1:
+                    raise RuntimeError(f'Alpha value {pixel} is out of range')
+                r = pixel[0]
+                g = pixel[1]
+                b = pixel[2]
+                a = pixel[3]
+                computedValues.append([round(r*a),round(g*a),round(b*a)])
 
         return computedValues
     
@@ -64,24 +66,25 @@ class Animator:
         print("This function is not yet implemented")
 
     def alphaBlend(self, a1, a2):
-
+        
         blendedValues = []
 
         for i in range(len(a1)):
             rgba = []
             pixel1 = a1[i]
             pixel2 = a2[i]
-            alpha = (pixel1[3] + pixel2[3]) * (1 - pixel1[3])
+            alpha = pixel1[3] + pixel2[3] * (1 - pixel1[3])
+
             for j in range(3):
-                rgba.append( ( pixel1[j] * pixel1[3] + pixel2[j] * pixel2[3] * ( 1 - pixel1[3] ) ) )
-                rgba[j] = rgba[j] + pixel2[j] * (1 - alpha)
+                rgba.append( pixel1[j] + pixel2[j] * (1 - pixel1[3]) )
+
             rgba.append(alpha)
 
             blendedValues.append(rgba)
 
+        print('a1:',a1)
+        print('a2:',a2)
         return blendedValues
-
-
 
     def processFrame(self, color=[], brightnessMask=[], shaderMask=[]):
         frameValues = {
@@ -93,13 +96,14 @@ class Animator:
         returnValues = []
         for x in color:
             # frameValue = self.color(self.animations[x])
-            frameValue = self.animations[x].animateFrame(self.data)
-            if frameValue:
-                frameValues['color'].append(frameValue)
+            frames = self.animations[x].animateFrame(self.data)
+            if frames:
+                for frame in frames:
+                    frameValues['color'].append(frame)
             else:
                 print(f'last frame reached by {x}')
                 return False
-        
+            
         for x in frameValues['color']:
             rawValues = self.alphaBlend(rawValues, x)
 
