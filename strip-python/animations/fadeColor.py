@@ -58,14 +58,14 @@ class FadeColor:
             
             r, g, b, a = self.prevColor[i]
 
-            oldColors.append([r,g,b,(self.pixelData/1000)*(1-a)])
+            oldColors.append([r,g,b,1-((self.pixelData/1000)*(a))])
 
         self.lastFrame = time.time()
 
+        print(newColor, oldColors)
         return newColor, oldColors
         
     def reset(self):
-        
         self.lastFrame = None
         self.doneFlag = False
         self.pixelData = 0

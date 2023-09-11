@@ -41,7 +41,6 @@ class Animator:
 
     def color(self, animation):
         frames = animation.animateFrame(self.data)
-        print(frames)
         for frame in frames:
             if not frame:
                 return False
@@ -82,9 +81,26 @@ class Animator:
 
             blendedValues.append(rgba)
 
-        print('a1:',a1)
-        print('a2:',a2)
         return blendedValues
+
+    def blend(self, frames):
+        alphaCalculated = []
+
+        for frame in frames:
+            calculatedFrame = []
+            for pixel in frame:
+                calculatedFrame.append(pixel[0]*pixel[3],pixel[1]*pixel[3],pixel[2]*pixel[3])
+            alphaCalculated.append(calculatedFrame)
+
+        for i in range(len(3)):
+            allR = []
+            allG = []
+            allB = []
+            for frame in alphaCalculated:
+
+
+            
+
 
     def processFrame(self, color=[], brightnessMask=[], shaderMask=[]):
         frameValues = {
