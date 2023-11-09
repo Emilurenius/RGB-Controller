@@ -1,5 +1,7 @@
 #include <Adafruit_NeoPixel.h>
 
+#define MAX_ANIMATIONS 128
+
 #define PIN_NEO_PIXEL 16  // The ESP32 pin GPIO16 connected to NeoPixel
 #define NUM_PIXELS 10     // The number of LEDs (pixels) on NeoPixel LED strip
 
@@ -11,6 +13,7 @@ struct RGB {
   int blue = 0;
 };
 
+
 class LedStrip {
   public:
     RGB stripColor[NUM_PIXELS];
@@ -20,6 +23,7 @@ class LedStrip {
         int color = neopixel.Color(stripColor[pixel].red, stripColor[pixel].green, stripColor[pixel].blue);
         neopixel.setPixelColor(pixel, color);
       }
+      neopixel.show();
     }
 
     void clearStrip() {
@@ -30,13 +34,22 @@ class LedStrip {
       }
     }
 
+    void setPixelColor(int pixel, int r, int g, int b) {
+      stripColor[pixel].red = r;
+      stripColor[pixel].green = g;
+      stripColor[pixel].blue = b;
+    }
+
     void setColor(int r, int g, int b) {
       for (int pixel = 0; pixel < NUM_PIXELS; pixel++) {
-        stripColor[pixel].red = r;
-        stripColor[pixel].green = g;
-        stripColor[pixel].blue = b;
+        setPixelColor(pixel, r,g,b);
       }
     }
+
+    void fadeColor() {
+      Serial.println("Not yet implemented");
+    }
+
 };
 
 LedStrip ledStrip;
