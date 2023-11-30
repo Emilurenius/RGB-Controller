@@ -60,13 +60,9 @@ LedStrip ledStrip;
 class Animation
 {
 public:
-  int theNumber = 0;
   Animation(int number)
   {
     theNumber = number;
-  }
-  void printNumber() {
-    Serial.println(theNumber);
   }
 };
 
