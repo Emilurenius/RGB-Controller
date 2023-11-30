@@ -2,85 +2,111 @@
 #line 1 "/home/cemil/Documents/Code-local/RGB-Controller/arduino-version/simpleController/simpleController.ino"
 #include <Adafruit_NeoPixel.h>
 
-#define MAX_ANIMATIONS 128
-
-#define PIN_NEO_PIXEL 16  // The ESP32 pin GPIO16 connected to NeoPixel
-#define NUM_PIXELS 10     // The number of LEDs (pixels) on NeoPixel LED strip
+#define PIN_NEO_PIXEL 16 // The ESP32 pin GPIO16 connected to NeoPixel
+#define NUM_PIXELS 10    // The number of LEDs (pixels) on NeoPixel LED strip
 
 Adafruit_NeoPixel neopixel(NUM_PIXELS, PIN_NEO_PIXEL, NEO_GRB + NEO_KHZ800);
 
-struct RGB {
+struct RGB
+{
   int red = 0;
   int green = 0;
   int blue = 0;
 };
 
+class LedStrip
+{
+public:
+  RGB stripColor[NUM_PIXELS];
 
-class LedStrip {
-  public:
-    RGB stripColor[NUM_PIXELS];
-
-    void show() {
-      for (int pixel = 0; pixel < NUM_PIXELS; ++pixel) {
-        int color = neopixel.Color(stripColor[pixel].red, stripColor[pixel].green, stripColor[pixel].blue);
-        neopixel.setPixelColor(pixel, color);
-      }
-      neopixel.show();
+  void show()
+  {
+    for (int pixel = 0; pixel < NUM_PIXELS; ++pixel)
+    {
+      int color = neopixel.Color(stripColor[pixel].red, stripColor[pixel].green, stripColor[pixel].blue);
+      neopixel.setPixelColor(pixel, color);
     }
+    neopixel.show();
+  }
 
-    void clearStrip() {
-      for (int pixel = 0; pixel < NUM_PIXELS; pixel++) {
-        stripColor[pixel].red = 0;
-        stripColor[pixel].green = 0;
-        stripColor[pixel].blue = 0;
-      }
+  void clearStrip()
+  {
+    for (int pixel = 0; pixel < NUM_PIXELS; pixel++)
+    {
+      stripColor[pixel].red = 0;
+      stripColor[pixel].green = 0;
+      stripColor[pixel].blue = 0;
     }
+  }
 
-    void setPixelColor(int pixel, int r, int g, int b) {
-      stripColor[pixel].red = r;
-      stripColor[pixel].green = g;
-      stripColor[pixel].blue = b;
+  void setPixelColor(int pixel, int r, int g, int b)
+  {
+    stripColor[pixel].red = r;
+    stripColor[pixel].green = g;
+    stripColor[pixel].blue = b;
+  }
+
+  void setColor(int r, int g, int b)
+  {
+    for (int pixel = 0; pixel < NUM_PIXELS; pixel++)
+    {
+      setPixelColor(pixel, r, g, b);
     }
-
-    void setColor(int r, int g, int b) {
-      for (int pixel = 0; pixel < NUM_PIXELS; pixel++) {
-        setPixelColor(pixel, r,g,b);
-      }
-    }
-
-    void fadeColor() {
-      Serial.println("Not yet implemented");
-    }
-
+  }
 };
 
 LedStrip ledStrip;
 
-void setup() {
+class Animation
+{
+public:
+  int theNumber = 0;
+  Animation(int number)
+  {
+    theNumber = number;
+  }
+  void printNumber() {
+    Serial.println(theNumber);
+  }
+};
+
+/* #region testAnimation */
+Animation testAnimation(3);
+
+
+
+/* #endregion testAnimation */
+
+void setup()
+{
   // put your setup code here, to run once:
   Serial.begin(115200);
   neopixel.begin();
   neopixel.clear();
+  testAnimation.printNumber();
 }
 
-void loop() {
+void loop()
+{
   // put your main code here, to run repeatedly:
   ledStrip.clearStrip();
   ledStrip.show();
   delay(500);
-  ledStrip.setColor(255,0,0);
+  ledStrip.setColor(255, 0, 0);
   ledStrip.show();
   delay(500);
-  ledStrip.setColor(0,255,0);
+  ledStrip.setColor(0, 255, 0);
   ledStrip.show();
   delay(500);
-  ledStrip.setColor(0,0,255);
+  ledStrip.setColor(0, 0, 255);
   ledStrip.show();
   delay(500);
 }
 
-void setColor(RGB rgb) {
-  for (int pixel = 0; pixel < NUM_PIXELS; ++pixel) {
+void setColor(RGB rgb)
+{
+  for (int pixel = 0; pixel < NUM_PIXELS; ++pixel)
+  {
     neopixel.setPixelColor(pixel, neopixel.Color(rgb.red, rgb.green, rgb.blue));
   }
   neopixel.show();
